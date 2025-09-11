@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+:root { --accent: #7342d6; }
 * {
   padding: 0;
   margin: 0;
@@ -224,41 +225,73 @@ LANDING
 
 */
 
-#landing {
-  background-color: rgba(115, 66, 214, 0.1)
-}
+/* 
+  LANDING
+  (Consolidated: single source of truth for hero)
+*/
 
-header {
-  height: calc(100vh - 80px);
-}
+#landing { background-color: rgba(115, 66, 214, 0.1); }
+
+header { height: calc(100vh - 80px); }
 
 .header__container {
   width: 100%;
-  max-width: 720px;
+  max-width: 1100px;
   margin: 0 auto;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  display: grid;                          /* two columns: text | art */
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 32px;
+  align-items: center;
+  padding: 56px 24px;
 }
 
 .header__description {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;                 /* left-align on desktop */
+  text-align: left;
+}
+
+/* Override global H1 center ONLY inside the hero */
+.header__description h1 {
+  color: #7342d6;
+  text-align: left;
+  margin-bottom: 8px;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.15;
+}
+
+.header__description p {
+  color: #6b7280;
+  font-size: clamp(16px, 2.2vw, 18px);
+  margin-bottom: 8px;
 }
 
 .header__img--wrapper {
   padding: 20px;
-
-  /* Added this after the tutorial to 
-  show it over the wave on larger screens */
   z-index: 50;
-  
-  /* Added this after the tutorial to 
-  make landing page responsive on laptops */
   max-height: 50vh;
 }
+
+.header__img--wrapper img {
+  width: 100%;
+  height: auto;                            
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .header__container {
+    display: block;                     
+    padding: 40px 16px;
+  }
+  .header__description {
+    align-items: center;
+    text-align: center;
+  }
+  .header__description h1 { text-align: center; }
+}
+
 
 .container {
   padding: 56px 0;
@@ -284,6 +317,7 @@ header {
 .no-cursor {
   cursor: not-allowed;
 }
+
 /* 
 
 HIGHLIGHTS 
@@ -767,7 +801,6 @@ select {
   padding: 12px 0;
 }
 
-/* SMALL PHONES, TABLETS, LARGE SMARTPHONES */
 @media (max-width: 768px) {
   .header__description {
     padding: 0 24px;
@@ -801,15 +834,13 @@ select {
   }
 }
 
-/* Force nav links to use your theme instead of browser blue/purple */
 .nav a,
 .nav a:link,
 .nav a:visited {
-  color: #111;               /* base text color */
+  color: #111;               
   text-decoration: none;
 }
 
-/* Active + hover use your accent */
 .nav__link:hover,
 .nav__link.active,
 .nav__link--active {
@@ -818,17 +849,17 @@ select {
   text-underline-offset: 6px;
 }
 
-/* Make sure the brand stays visible and aligned */
+
 .brand { display: flex; align-items: center; gap: 10px; color: #111; }
 .logo { height: 40px; width: auto; display: block; }
 .brand__title { font-size: 22px; font-weight: 700; margin: 0; }
 .brand__subtitle { margin: 2px 0 0; font-size: 12px; color: #6b7280; }
 
-/* Hamburger bars (paired with your .icon-btn) */
+
 .nav__toggle { display: none; }
 .nav__toggle-bar { display: block; width: 22px; height: 2px; margin: 4px 0; background: #111; }
 
-/* Mobile slide-in (keeps your previous structure) */
+
 @media (max-width: 768px) {
   .nav__toggle { display: inline-block; }
 
@@ -882,3 +913,24 @@ select {
     padding-left: 0;
   }
 }
+
+
+.btn {
+  border-radius: 8px;         
+  box-shadow: 0 8px 24px rgba(115, 66, 214, 0.25);
+}
+.btn:hover { background-color: #5b3cd0; }  
+
+
+.header__img--wrapper {
+  padding: 0 20px;             
+  max-height: 520px;          
+}
+.header__img--wrapper img {
+  width: 100%;
+  height: auto;       
+  display: block;
+}
+
+
+

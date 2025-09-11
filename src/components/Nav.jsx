@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons"; // cart icon
-import LibraryLogo from "../assets/Library.svg"; // your logo
+import { faShoppingCart, faBars } from "@fortawesome/free-solid-svg-icons";
+import LibraryLogo from "../assets/Library.svg";
 
-function Nav() {
+function Nav({ numberOfItems = 0 }) {
   const [open, setOpen] = useState(false);
   const closeMenu = () => setOpen(false);
 
@@ -14,10 +14,7 @@ function Nav() {
         {/* BRAND */}
         <Link to="/" className="brand" onClick={closeMenu} aria-label="Library Home">
           <img className="logo" src={LibraryLogo} alt="Library logo" />
-          <div className="brand__text">
-            <p className="brand__title">Library</p>
-            <p className="brand__subtitle">Books for everyone</p>
-          </div>
+          {/* brand__text intentionally empty per your choice */}
         </Link>
 
         {/* Hamburger */}
@@ -28,9 +25,7 @@ function Nav() {
           aria-controls="nav-menu"
           onClick={() => setOpen(!open)}
         >
-          <span className="nav__toggle-bar" />
-          <span className="nav__toggle-bar" />
-          <span className="nav__toggle-bar" />
+          <FontAwesomeIcon icon={faBars} />
         </button>
 
         {/* Links */}
@@ -44,15 +39,18 @@ function Nav() {
           <li className="nav__item">
             <NavLink to="/contact" className="nav__link" onClick={closeMenu}>Contact</NavLink>
           </li>
+
           <li className="nav__item nav__icon">
-            <NavLink to="/cart" className="nav__link" onClick={closeMenu}>
+            <NavLink to="/cart" className="nav__link" onClick={closeMenu} aria-label="Cart">
               <FontAwesomeIcon icon={faShoppingCart} size="lg" />
-              <span className="cart__length">0</span>
+              {numberOfItems > 0 && <span className="cart__length">{numberOfItems}</span>}
             </NavLink>
           </li>
 
-          {/* Close button (mobile) */}
-          <button className="nav__close" aria-label="Close menu" onClick={closeMenu}>×</button>
+          {/* Close button (mobile) – wrap in li for valid markup */}
+          <li className="nav__item">
+            <button className="nav__close" aria-label="Close menu" onClick={closeMenu}>×</button>
+          </li>
         </ul>
       </div>
     </nav>
