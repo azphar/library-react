@@ -834,12 +834,14 @@ select {
   }
 }
 
-.nav a,
-.nav a:link,
-.nav a:visited {
-  color: #111;               
+.nav__list a,
+.nav__list a:link,
+.nav__list a:visited {
+  color: #111;
   text-decoration: none;
 }
+
+
 
 .nav__link:hover,
 .nav__link.active,
@@ -858,6 +860,16 @@ select {
 
 .nav__toggle { display: none; }
 .nav__toggle-bar { display: block; width: 22px; height: 2px; margin: 4px 0; background: #111; }
+
+.nav__links { display: none; }
+
+.nav__links.open { display: flex; }
+
+@media (min-width: 1024px) {
+  .nav__links { display: flex; }
+  .nav__toggle { display: none; }
+}
+
 
 
 @media (max-width: 768px) {
@@ -883,12 +895,9 @@ select {
   .nav__close { display: inline-block; }
 }
 
-/* If a global `ul { display:flex }` exists elsewhere, neutralize it */
 .nav li { list-style: none; }
 
 
-
-/* SMALL PHONES, LARGE SMARTPHONES */
 @media (max-width: 550px) {
   .btn__menu {
     display: block;
@@ -931,6 +940,7 @@ select {
   height: auto;       
   display: block;
 }
+
 
 
 

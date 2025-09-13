@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; 
 
-const Explore = () => {
+function Explore() {
   return (
     <section id="explore">
       <div className="container">
@@ -16,6 +16,6 @@ const Explore = () => {
       </div>
     </section>
   );
-};
+}
 
 export default Explore;

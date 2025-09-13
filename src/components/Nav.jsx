@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faBars } from "@fortawesome/free-solid-svg-icons";
 import LibraryLogo from "../assets/Library.svg";
 
 function Nav({ numberOfItems = 0 }) {
-  const [open, setOpen] = useState(false);
-  const closeMenu = () => setOpen(false);
+  function openMenu() {
+    document.body.classList.add("menu--open");
+  }
+  function closeMenu() {
+    document.body.classList.remove("menu--open");
+  }
 
   return (
     <nav className="nav">
@@ -14,42 +18,50 @@ function Nav({ numberOfItems = 0 }) {
         {/* BRAND */}
         <Link to="/" className="brand" onClick={closeMenu} aria-label="Library Home">
           <img className="logo" src={LibraryLogo} alt="Library logo" />
-          {/* brand__text intentionally empty per your choice */}
+          {/* Optional brand text if you want it later */}
         </Link>
 
-        {/* Hamburger */}
-        <button
-          className="nav__toggle icon-btn"
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          aria-controls="nav-menu"
-          onClick={() => setOpen(!open)}
-        >
-          <FontAwesomeIcon icon={faBars} />
-        </button>
-
-        {/* Links */}
-        <ul id="nav-menu" className={`nav__links ${open ? "open" : ""}`}>
-          <li className="nav__item">
-            <NavLink to="/" className="nav__link" onClick={closeMenu}>Home</NavLink>
-          </li>
-          <li className="nav__item">
-            <NavLink to="/books" className="nav__link" onClick={closeMenu}>Books</NavLink>
-          </li>
-          <li className="nav__item">
-            <NavLink to="/contact" className="nav__link" onClick={closeMenu}>Contact</NavLink>
-          </li>
-
-          <li className="nav__item nav__icon">
-            <NavLink to="/cart" className="nav__link" onClick={closeMenu} aria-label="Cart">
-              <FontAwesomeIcon icon={faShoppingCart} size="lg" />
+        {/* DESKTOP LINKS */}
+        <ul className="nav__list">
+          <li><NavLink to="/" className="nav__link">Home</NavLink></li>
+          <li><NavLink to="/books" className="nav__link">Books</NavLink></li>
+          <li className="nav__icon">
+            <NavLink to="/cart" aria-label="Cart">
+              <FontAwesomeIcon icon={faShoppingCart} />
               {numberOfItems > 0 && <span className="cart__length">{numberOfItems}</span>}
             </NavLink>
           </li>
+        </ul>
 
-          {/* Close button (mobile) – wrap in li for valid markup */}
-          <li className="nav__item">
-            <button className="nav__close" aria-label="Close menu" onClick={closeMenu}>×</button>
+        {/* HAMBURGER (shown by your CSS below 550px) */}
+        <button className="btn__menu" type="button" aria-label="Open menu" onClick={openMenu}>
+          <FontAwesomeIcon icon={faBars} />
+        </button>
+      </div>
+
+      {/* MOBILE OVERLAY (driven by .menu--open on <body>) */}
+      <div className="menu__backdrop" role="dialog" aria-modal="true">
+        <button
+          className="btn__menu btn__menu--close"
+          type="button"
+          aria-label="Close menu"
+          onClick={closeMenu}
+        >
+          ×
+        </button>
+
+        <ul className="menu__links">
+          <li className="menu__list">
+            <NavLink to="/" className="menu__link" onClick={closeMenu}>Home</NavLink>
+          </li>
+          <li className="menu__list">
+            <NavLink to="/books" className="menu__link" onClick={closeMenu}>Books</NavLink>
+          </li>
+          <li className="menu__list">
+            <NavLink to="/cart" className="menu__link" onClick={closeMenu}>
+              <FontAwesomeIcon icon={faShoppingCart} /> Cart
+              {numberOfItems > 0 && <span className="cart__length" style={{ marginLeft: 8 }}>{numberOfItems}</span>}
+            </NavLink>
           </li>
         </ul>
       </div>
@@ -58,3 +70,4 @@ function Nav({ numberOfItems = 0 }) {
 }
 
 export default Nav;
+
