@@ -1,25 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
+import { Switch, Route } from "react-router-dom";   // Router is in index.js
 import Nav from "./components/Nav";
-import Landing from "./components/Landing";
-import Highlights from "./components/Highlights";
-import Featured from "./components/Featured";
-import Discounted from "./components/ui/Discounted";
-import Explore from "./components/Explore";
+import Home from "./pages/Home";
+import Books from "./pages/Books";
 import Footer from "./components/Footer";
 
 function App() {
-  const [numberOfItems] = useState(0);
   return (
     <div className="App">
-      <Nav numberOfItems={numberOfItems} />
-      <Landing /> 
-      <Highlights /> 
-      <Featured /> 
-      <Discounted /> 
-      <Explore /> 
+      <Nav />
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/books" component={Books} />
+      </Switch>
       <Footer />
     </div>
   );
 }
 
 export default App;
+
+

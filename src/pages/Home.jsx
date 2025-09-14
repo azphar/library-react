@@ -1,22 +1,22 @@
+// src/pages/Home.jsx
 import React from "react";
 import Landing from "../components/Landing";
 import Highlights from "../components/Highlights";
-import Features from "../components/Featured";
-import CheapestBooks from "../components/CheapestBooks";
+import Featured from "../components/Featured";
+import Discounted from "../components/ui/Discounted";
 import Explore from "../components/Explore";
 
-const Home = () => {
+
+export default function Home() {
   return (
     <>
       <Landing />
-      <main>
-        <Highlights />
-        <Features />
-        <CheapestBooks />
-        <Explore />
-      </main>
+      <Highlights />
+      <Featured />
+      <Discounted />
+      <Explore />
     </>
   );
-};
+}
 
-export default Home;
+

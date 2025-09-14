@@ -1,69 +1,32 @@
-import React, { useState, useEffect } from "react";
-import Book from "../components/Book";
+import React from "react";
+import Book from "../components/ui/Book";
+import { books as allBooks } from "../data";   
 
-const Books = ({ books: initalBooks }) => {
-  const [books, setBooks] = useState();
-
-  useEffect(() => {
-    setBooks(initalBooks);
-  }, [initalBooks]);
-
-  function filterBooks(filter) {
-    switch (filter) {
-      case "LOW_TO_HIGH":
-        return setBooks(
-          books
-            .slice()
-            .sort(
-              (a, b) =>
-                (a.salePrice || a.originalPrice) -
-                (b.salePrice || b.originalPrice)
-            )
-        );
-      case "HIGH_TO_LOW":
-        return setBooks(
-          books
-            .slice()
-            .sort(
-              (a, b) =>
-                (b.salePrice || b.originalPrice) -
-                (a.salePrice || a.originalPrice)
-            )
-        );
-      case "RATING":
-        return setBooks(books.slice().sort((a, b) => b.rating - a.rating));
-      default:
-        break;
-    }
-  }
-
+function Books() {
   return (
     <div id="books__body">
       <main id="books__main">
-        <section>
+        <section className="container">
           <div className="books__container">
             <div className="row">
               <div className="books__header">
-                <h2 className="section__title books__header--title">
-                  All Books
-                </h2>
-                <select
-                  id="filter"
-                  onChange={(event) => filterBooks(event.target.value)}
-                  defaultValue={"DEFAULT"}
-                >
-                  <option value="DEFAULT" disabled>
-                    Sort
-                  </option>
+                <h2 className="section__title books__header--title">All Books</h2>
+                <select id="filter" defaultValue="DEFAULT">
+                  <option value="DEFAULT" disabled>Sort</option>
                   <option value="LOW_TO_HIGH">Price, Low to High</option>
                   <option value="HIGH_TO_LOW">Price, High to Low</option>
                   <option value="RATING">Rating</option>
                 </select>
               </div>
+
               <div className="books">
-                {books && books.map((book) => {
-                  return <Book book={book} key={book.id} />;
-                })}
+                {Array.isArray(allBooks) && allBooks.length > 0 ? (
+                  allBooks.map((book) => (
+                    <Book key={book.id ?? book.title} book={book} />
+                  ))
+                ) : (
+                  <p style={{ padding: 16 }}>No books found.</p>
+                )}
               </div>
             </div>
           </div>
@@ -71,6 +34,7 @@ const Books = ({ books: initalBooks }) => {
       </main>
     </div>
   );
-};
+}
 
 export default Books;
+

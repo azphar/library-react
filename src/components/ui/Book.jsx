@@ -1,43 +1,38 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faStarHalfStroke } from "@fortawesome/free-solid-svg-icons";
 
 function Book({ book }) {
-  // add the formatter here
-  const fmt = (n) => (typeof n === "number" ? n.toFixed(2) : n);
+  if (!book) return null;
+
+  const title = book.title ?? "Untitled";
+  const imgSrc = book.url ?? book.image ?? book.img ?? "";
+  const original = Number(
+    book.originalPrice ?? book.price ?? book.listPrice ?? 0
+  );
+  const sale =
+    book.salePrice != null && book.salePrice !== ""
+      ? Number(book.salePrice)
+      : null;
 
   return (
     <div className="book">
-      <a href="/">
-        <figure className="book__img--wrapper">
-          <img
-            src={book.url}
-            alt={`${book.title} book cover`}
-            className="book__img"
-          />
-        </figure>
-      </a>
-      <div className="book__title">
-        <a href="/" className="book__title--link">
-          {book.title}
-        </a>
+      <div className="book__img--wrapper">
+        {imgSrc ? (
+          <img className="book__img" src={imgSrc} alt={title} />
+        ) : (
+          <div className="book__img--skeleton" />
+        )}
       </div>
-      <div className="book__ratings">
-        {
-          new Array(Math.floor(book.rating)).fill(0).map((_, index) => <FontAwesomeIcon icon="star" key={index} />)
-        }
-        {
-          !Number.isInteger(book.rating) && <FontAwesomeIcon icon="star-half-alt" />
-        }
-      </div>
+
+      <h3 className="book__title">{title}</h3>
+
       <div className="book__price">
-        {book.salePrice ? (
+        {sale != null ? (
           <>
-            <span className="book__price--normal">${fmt(book.originalPrice.toFixed(2))}</span>
-            ${book.salePrice.toFixed(2)}
+            <span className="book__price--normal">${original.toFixed(2)}</span>
+            ${sale.toFixed(2)}
           </>
         ) : (
-          <>${book.originalPrice}</>
+          <>${original.toFixed(2)}</>
         )}
       </div>
     </div>
