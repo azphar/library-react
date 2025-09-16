@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";   // Router is in index.js
+import { Switch, Route } from "react-router-dom";   
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
 import Books from "./pages/Books";

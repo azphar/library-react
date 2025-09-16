@@ -1,7 +1,7 @@
-// src/components/ui/Discounted.jsx
 import React from "react";
-import { books } from "../../data";
-import Book from "./Book";
+import { books } from "../data";      
+import Book from "./Book";         
+
 
 const Discounted = () => {
   return (
