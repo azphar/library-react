@@ -18,14 +18,12 @@ function Nav({ numberOfItems = 0 }) {
     setMenuOpen(false);
   };
 
-  // Close on ESC and move focus to first item when opened
   useEffect(() => {
     const onKeyDown = (e) => {
       if (e.key === "Escape") closeMenu();
     };
     if (menuOpen) {
       document.addEventListener("keydown", onKeyDown);
-      // focus first link in the mobile menu for a11y
       setTimeout(() => firstMobileLinkRef.current?.focus(), 0);
     }
     return () => document.removeEventListener("keydown", onKeyDown);
@@ -60,16 +58,6 @@ function Nav({ numberOfItems = 0 }) {
               onClick={closeMenu}
             >
               Books
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/contact"
-              className="nav__link"
-              activeClassName="nav__link--active"
-              onClick={closeMenu}
-            >
-              Contact
             </NavLink>
           </li>
           <li className="nav__icon">
