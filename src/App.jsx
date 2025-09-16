@@ -15,7 +15,7 @@ function App() {
       <Nav />
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/books" exact component={Books} />
+        <Route path="/books" exact render={() => <Books books={books} />} />
         <Route path="/books/:id" component={BookInfo} />
         <Route path="/cart" component={Cart} />
       </Switch>

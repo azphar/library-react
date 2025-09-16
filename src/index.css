@@ -801,6 +801,13 @@ select {
   padding: 12px 0;
 }
 
+.books__controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+
 @media (max-width: 768px) {
   .header__description {
     padding: 0 24px;
