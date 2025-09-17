@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Books from "./pages/Books";
 import Footer from "./components/Footer";
 import { books } from "./data";
+import BookInfo from "./pages/BookInfo";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/books" render={() => <Books books={books} />} />
+        <Route path="/books/1" render={() => <BookInfo books={books} />} />
       </Switch>
       <Footer />
     </div>

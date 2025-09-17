@@ -1,40 +1,32 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import Ratings from "./Ratings";  
+import Price from "./Price";    
 
 function Book({ book }) {
-  if (!book) return null;
-
-  const title = book.title ?? "Untitled";
-  const imgSrc = book.url ?? book.image ?? book.img ?? "";
-  const original = Number(
-    book.originalPrice ?? book.price ?? book.listPrice ?? 0
-  );
-  const sale =
-    book.salePrice != null && book.salePrice !== ""
-      ? Number(book.salePrice)
-      : null;
-
   return (
     <div className="book">
-      <div className="book__img--wrapper">
-        {imgSrc ? (
-          <img className="book__img" src={imgSrc} alt={title} />
-        ) : (
-          <div className="book__img--skeleton" />
-        )}
-      </div>
+      {/* Navigate to the detail page without a full reload */}
+      <Link
+        to={`/books/${book.id}`}
+        className="book__link"
+        aria-label={`Open ${book.title}`}
+      >
+        <figure className="book__img--wrapper">
+          <img className="book__img" src={book.url} alt={book.title} />
+        </figure>
 
-      <h3 className="book__title">{title}</h3>
+        <h3 className="book__title">{book.title}</h3>
 
-      <div className="book__price">
-        {sale != null ? (
-          <>
-            <span className="book__price--normal">${original.toFixed(2)}</span>
-            ${sale.toFixed(2)}
-          </>
-        ) : (
-          <>${original.toFixed(2)}</>
-        )}
-      </div>
+        {/* Show rating + price on the card */}
+        <Ratings rating={book.rating} />
+        <div className="book__price">
+          <Price
+            originalPrice={book.originalPrice}
+            salePrice={book.salePrice}
+          />
+        </div>
+      </Link>
     </div>
   );
 }

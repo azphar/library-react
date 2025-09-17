@@ -3,8 +3,8 @@ import Book from "../components/Book";
 
 
 function Books({ books: initialBooks = [] }) {
-  const [sort, setSort] = useState("");      // "", "LOW__TO__HIGH", "HIGH__TO__LOW", "RATING"
-  const [rating, setRating] = useState("");  // "", "5", "4+", "3+"
+  const [sort, setSort] = useState("");      
+  const [rating, setRating] = useState(""); 
 
   const price = (b) => b.salePrice ?? b.originalPrice;
 
