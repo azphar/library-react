@@ -1,12 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Ratings from "./Ratings";  
-import Price from "./Price";    
+import Ratings from "./ui/Rating";
 
 function Book({ book }) {
+  // Safe number parsing (works for numbers or numeric strings)
+  const orig = Number(book.originalPrice);
+  const sale = Number(book.salePrice);
+  const hasOriginal = Number.isFinite(orig);
+  const hasSale = Number.isFinite(sale);
+  const fmt = (n) => `$${n.toFixed(2)}`;
+
   return (
     <div className="book">
-      {/* Navigate to the detail page without a full reload */}
       <Link
         to={`/books/${book.id}`}
         className="book__link"
@@ -18,13 +23,24 @@ function Book({ book }) {
 
         <h3 className="book__title">{book.title}</h3>
 
-        {/* Show rating + price on the card */}
-        <Ratings rating={book.rating} />
+        {/* Inline rating (no Ratings component needed) */}
+        {book.rating != null && (
+          <div className="book__rating" title={`${book.rating} / 5`}>
+            {"★★★★★".slice(0, Math.round(Number(book.rating))) +
+              "☆☆☆☆☆".slice(0, 5 - Math.round(Number(book.rating)))}
+          </div>
+        )}
+
+        {/* Inline price (no Price component needed) */}
         <div className="book__price">
-          <Price
-            originalPrice={book.originalPrice}
-            salePrice={book.salePrice}
-          />
+          {hasSale && hasOriginal ? (
+            <>
+              <span className="book__price--original">{fmt(orig)}</span>
+              <span className="book__price--sale">{fmt(sale)}</span>
+            </>
+          ) : hasOriginal ? (
+            <span className="book__price--regular">{fmt(orig)}</span>
+          ) : null}
         </div>
       </Link>
     </div>
@@ -32,4 +48,5 @@ function Book({ book }) {
 }
 
 export default Book;
+
 
