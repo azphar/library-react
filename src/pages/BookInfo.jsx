@@ -8,12 +8,8 @@ function BookInfo({ books = [], addItemToCart }) {
   const { id } = useParams();
   const book = books.find((b) => Number(b.id) === Number(id));
 
-  // Simple helpers so we don't depend on separate components
-  const fmt = (n) => (typeof n === "number" ? `$${n.toFixed(2)}` : null);
-  const stars = (score) => {
-    const r = Math.max(0, Math.min(5, Math.round(Number(score) || 0)));
-    return "★★★★★".slice(0, r) + "☆☆☆☆☆".slice(0, 5 - r);
-  };
+  // single helper
+  const fmt = (n) => `$${Number(n).toFixed(2)}`;
 
   if (!book) {
     return (
@@ -30,9 +26,17 @@ function BookInfo({ books = [], addItemToCart }) {
     );
   }
 
-  const originalStr = fmt(book.originalPrice);
-  const saleStr = fmt(book.salePrice);
-  const hasSale = typeof book.salePrice === "number";
+  // robust price handling (no $0.00 for null/empty sale)
+  const origNum = Number(book.originalPrice);
+  const originalStr = Number.isFinite(origNum) ? fmt(origNum) : null;
+
+  const saleRaw = book.salePrice;
+  const hasSale =
+    saleRaw !== null &&
+    saleRaw !== undefined &&
+    saleRaw !== "" &&
+    Number.isFinite(Number(saleRaw));
+  const saleStr = hasSale ? fmt(Number(saleRaw)) : null;
 
   return (
     <div id="books__body">
@@ -56,10 +60,17 @@ function BookInfo({ books = [], addItemToCart }) {
               <div className="book__selected--description">
                 <h2 className="book__selected--title">{book.title}</h2>
 
+                {/* stars */}
                 <div className="book__rating" title={`${book.rating} / 5`}>
-                  {stars(book.rating)}
+                  <span className="stars--full">
+                    {"★★★★★".slice(0, Math.round(Number(book.rating) || 0))}
+                  </span>
+                  <span className="stars--empty">
+                    {"☆☆☆☆☆".slice(0, 5 - Math.round(Number(book.rating) || 0))}
+                  </span>
                 </div>
 
+                {/* price */}
                 <div className="book__selected--price">
                   {hasSale && originalStr ? (
                     <>
@@ -95,3 +106,4 @@ function BookInfo({ books = [], addItemToCart }) {
 }
 
 export default BookInfo;
+

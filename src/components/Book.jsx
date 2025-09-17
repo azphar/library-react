@@ -1,14 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Ratings from "./ui/Rating";
 
 function Book({ book }) {
-  // Safe number parsing (works for numbers or numeric strings)
-  const orig = Number(book.originalPrice);
-  const sale = Number(book.salePrice);
-  const hasOriginal = Number.isFinite(orig);
-  const hasSale = Number.isFinite(sale);
   const fmt = (n) => `$${n.toFixed(2)}`;
+
+  // original price
+  const orig = Number(book.originalPrice);
+  const hasOriginal = Number.isFinite(orig);
+
+  // sale price: treat null/undefined/"" as "no sale" (0 is allowed)
+  const saleRaw = book.salePrice;
+  const hasSale =
+    saleRaw !== null &&
+    saleRaw !== undefined &&
+    saleRaw !== "" &&
+    Number.isFinite(Number(saleRaw));
+  const sale = hasSale ? Number(saleRaw) : null;
 
   return (
     <div className="book">
@@ -23,15 +30,17 @@ function Book({ book }) {
 
         <h3 className="book__title">{book.title}</h3>
 
-        {/* Inline rating (no Ratings component needed) */}
         {book.rating != null && (
           <div className="book__rating" title={`${book.rating} / 5`}>
-            {"★★★★★".slice(0, Math.round(Number(book.rating))) +
-              "☆☆☆☆☆".slice(0, 5 - Math.round(Number(book.rating)))}
+            <span className="stars--full">
+              {"★★★★★".slice(0, Math.round(Number(book.rating) || 0))}
+            </span>
+            <span className="stars--empty">
+              {"☆☆☆☆☆".slice(0, 5 - Math.round(Number(book.rating) || 0))}
+            </span>
           </div>
         )}
 
-        {/* Inline price (no Price component needed) */}
         <div className="book__price">
           {hasSale && hasOriginal ? (
             <>

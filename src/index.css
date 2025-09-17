@@ -423,6 +423,10 @@ FEATURES
   color: #242424;
 }
 
+.book__link .book__rating { color: #fabf2a; }   
+.book__link .book__rating .stars--empty { color: #bfbfbf; } 
+
+
 .book__img--wrapper {
   margin-bottom: 8px;
   border-radius: 4px;

@@ -12,10 +12,20 @@ function App() {
     <div className="App">
       <Nav />
       <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/books" render={() => <Books books={books} />} />
-        <Route path="/books/1" render={() => <BookInfo books={books} />} />
-      </Switch>
+  {/* Detail FIRST, dynamic param */}
+  <Route
+    path="/books/:id"
+    render={(props) => <BookInfo {...props} books={books} />}
+  />
+  {/* List EXACT so it doesn't swallow /books/:id */}
+  <Route
+    path="/books"
+    exact
+    render={() => <Books books={books} />}
+  />
+  <Route path="/" exact component={Home} />
+</Switch>
+
       <Footer />
     </div>
   );
