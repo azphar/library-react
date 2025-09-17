@@ -8,7 +8,6 @@ function BookInfo({ books = [], addItemToCart }) {
   const { id } = useParams();
   const book = books.find((b) => Number(b.id) === Number(id));
 
-  // single helper
   const fmt = (n) => `$${Number(n).toFixed(2)}`;
 
   if (!book) {
@@ -26,7 +25,6 @@ function BookInfo({ books = [], addItemToCart }) {
     );
   }
 
-  // robust price handling (no $0.00 for null/empty sale)
   const origNum = Number(book.originalPrice);
   const originalStr = Number.isFinite(origNum) ? fmt(origNum) : null;
 
@@ -51,7 +49,6 @@ function BookInfo({ books = [], addItemToCart }) {
                 <h2 className="book__selected--title--top">Books</h2>
               </Link>
             </div>
-
             <div className="book__selected">
               <figure className="book__selected--figure">
                 <img className="book__selected--img" src={book.url} alt={book.title} />
@@ -60,7 +57,6 @@ function BookInfo({ books = [], addItemToCart }) {
               <div className="book__selected--description">
                 <h2 className="book__selected--title">{book.title}</h2>
 
-                {/* stars */}
                 <div className="book__rating" title={`${book.rating} / 5`}>
                   <span className="stars--full">
                     {"★★★★★".slice(0, Math.round(Number(book.rating) || 0))}
@@ -70,7 +66,6 @@ function BookInfo({ books = [], addItemToCart }) {
                   </span>
                 </div>
 
-                {/* price */}
                 <div className="book__selected--price">
                   {hasSale && originalStr ? (
                     <>
@@ -81,12 +76,26 @@ function BookInfo({ books = [], addItemToCart }) {
                     originalStr && <span className="book__price--regular">{originalStr}</span>
                   )}
                 </div>
+<div className="book__summary">
+  <h3 className="book__summary--title">Summary</h3>
+  <p className="book__summary--para">
+    {(book.description ??
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis nisi culpa totam. Laudantium iusto praesentium tempora consequatur repellat aperiam, minima nulla, omnis ex ipsa architecto magnam, qui eligendi sit deleniti?")}
+  </p>
+  <p className="book__summary--para">
+    {(book.description2 ??
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium iusto praesentium tempora consequatur repellat aperiam, minima nulla, omnis ex ipsa architecto magnam, qui eligendi sit deleniti?")}
+  </p>
+</div>
+<button
+  className="btn btn--cart"
+  onClick={() =>
+    addItemToCart ? addItemToCart(book) : console.log("TODO: add to cart", book)
+  }
+>
+  Add to cart
+</button>
 
-                {typeof addItemToCart === "function" && (
-                  <button className="btn" onClick={() => addItemToCart(book)}>
-                    Add to Cart
-                  </button>
-                )}
               </div>
             </div>
           </div>

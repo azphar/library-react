@@ -155,6 +155,22 @@ button:active {
   display: none;
 }
 
+.btn--cart {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 4px;        
+  box-shadow: none;         
+}
+
+.btn--cart:hover { background-color: #5b3cd0; }
+.btn--cart:active { transform: translateY(1px); }
+.btn--cart:focus-visible { outline: 2px solid #7342d6; outline-offset: 2px; }
+.btn--cart:disabled { opacity: .5; cursor: not-allowed; }
+
+
 .menu__backdrop {
   position: absolute;
   background-color: #242424;
@@ -370,16 +386,16 @@ FEATURES
 }
 
 .books {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -24px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));  
+  gap: 24px;                                        
 }
 
-.book {
-  width: 25%;
-  padding: 24px;
-  transition: all 300ms ease;
+
+@media (max-width: 768px) {
+  .books { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
 
 .book:hover {
   transform: translateY(-4px);
@@ -521,6 +537,7 @@ BOOKS PAGE
   justify-content: space-between;
   align-items: center;
   padding: 0 24px;
+  margin-bottom: 24px;
 }
 
 .books__header--title {
@@ -574,31 +591,39 @@ select {
   padding-top: 16px;
 }
 
+/* --- Book detail layout (desktop) --- */
 .book__selected {
-  display: flex;
+  display: grid;
+  grid-template-columns: 360px 1fr; /* left column for cover, right for content */
+  gap: 24px;
+  align-items: start;
 }
 
+/* Let grid items shrink properly to avoid overflow */
+.book__selected > * { min-width: 0; }
+
+/* Cover column */
 .book__selected--figure {
-  width: 40%;
-  padding: 16px 32px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0;           /* reset default figure margins */
+  padding: 0;          /* keep it tight; you had padding earlier—remove it here */
+  display: block;      /* grid will handle placement */
 }
 
+/* Image sizing inside figure */
 .book__selected--img {
+  display: block;
+  width: 100%;
+  height: auto;
   max-height: 500px;
-  width: auto;
-  max-width: 100%;
+  object-fit: contain;
 }
 
+/* Description column */
 .book__selected--description {
-  width: 60%;
-  padding: 16px 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  padding: 0;          /* let the surrounding grid gap control spacing */
+  display: block;      /* no need for flex here */
 }
+
 
 .book__selected--top {
   padding: 0 24px;
@@ -817,20 +842,19 @@ select {
     font-size: 18px;
   }
 
-  .book {
-    width: 50%;
-  }
-
   .book__selected {
     flex-direction: column;
+    gap: 16px;
   }
-  .book__selected--figure {
-    width: 100%;
-    justify-content: flex-start;
-  }
+
+  .book__selected--figure,
   .book__selected--description {
+    flex: none;
     width: 100%;
   }
+
+  .book__selected--figure { justify-content: flex-start; }
+
 
 
 .nav__list a,
